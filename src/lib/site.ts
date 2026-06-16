@@ -15,13 +15,14 @@ function normalizeBaseUrl(raw: string | undefined): string {
 
 const contactEmail =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "info@buypropertymersin.com";
+const contactPhone = "05411411989";
 
 export const site = {
   siteName: "Buy Property Mersin",
   domain: "buypropertymersin.com",
   baseUrl: normalizeBaseUrl(process.env.NEXT_PUBLIC_SITE_URL),
   whatsappNumber:
-    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "905XXXXXXXXX",
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "905411411989",
   email: contactEmail,
   defaultOgImage:
     "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80",
@@ -29,7 +30,7 @@ export const site = {
   city: "Mersin",
   region: "Mersin",
   country: "TR",
-  telephone: "+90 XXX XXX XX XX",
+  telephone: contactPhone,
   description:
     "Buy Property Mersin helps foreign buyers explore real estate opportunities in Mersin, Türkiye, including apartments, villas, sea-view homes and investment properties.",
 } as const;

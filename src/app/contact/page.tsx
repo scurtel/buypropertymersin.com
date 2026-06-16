@@ -4,7 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactForm } from "@/components/ContactForm";
 import { PageSchema } from "@/components/Schema";
 import { buildMetadata } from "@/lib/seo";
-import { CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/constants";
+import { BUSINESS, CONTACT_EMAIL, WHATSAPP_URL } from "@/lib/constants";
 
 export const metadata: Metadata = buildMetadata({
   title: "Contact Us",
@@ -62,6 +62,15 @@ export default function ContactPage() {
                     className="mt-1 text-gold hover:underline"
                   >
                     {CONTACT_EMAIL}
+                  </a>
+                </div>
+                <div className="rounded-lg border border-beige-dark/60 bg-white p-4 text-sm text-navy/70">
+                  <p className="font-medium text-navy">Phone</p>
+                  <a
+                    href={`tel:${BUSINESS.telephone}`}
+                    className="mt-1 text-gold hover:underline"
+                  >
+                    {BUSINESS.telephone}
                   </a>
                 </div>
               </div>
