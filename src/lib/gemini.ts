@@ -96,6 +96,78 @@ Return only the guide text, no headings or markdown.`;
   return generateText(prompt);
 }
 
+export interface BlogArticleSpec {
+  slug: string;
+  title: string;
+  targetKeyword: string;
+  secondaryKeywords: string[];
+}
+
+export interface GeneratedBlogArticle {
+  h1: string;
+  metaTitle: string;
+  metaDescription: string;
+  excerpt: string;
+  sections: { type: "h2" | "h3" | "p"; text: string }[];
+  faq: { question: string; answer: string }[];
+  internalLinks: { label: string; href: string }[];
+  relatedSlugs: string[];
+}
+
+export async function generateBlogArticle(
+  spec: BlogArticleSpec
+): Promise<GeminiResult<GeneratedBlogArticle>> {
+  const prompt = `You are an expert real estate content writer for Buy Property Mersin, helping foreign buyers in Mersin, Türkiye.
+
+Write a complete SEO blog article as valid JSON only (no markdown fences).
+
+Article title: ${spec.title}
+Slug: ${spec.slug}
+Target keyword: ${spec.targetKeyword}
+Secondary keywords: ${spec.secondaryKeywords.join(", ")}
+
+Requirements:
+- Total body word count across all "p" sections: 1800-2500 words
+- Natural, human English. Not robotic. Low sales pressure. Trustworthy tone.
+- No guaranteed residence, citizenship, or investment returns
+- Use conditional language for legal and investment topics
+- metaTitle: max 60 characters (count carefully)
+- metaDescription: max 155 characters
+- 5 FAQ items with concise, safe answers
+- sections: array of objects with type "h2", "h3", or "p" and text field
+- Use clear H2/H3 hierarchy (multiple H2 sections, H3 subsections where helpful)
+- internalLinks: 4-6 suggested internal links with label and href (paths like /properties/, /property-in-mezitli/, /buying-property-in-turkey/, /contact/)
+- relatedSlugs: pick 2 from [best-areas-to-buy-property-in-mersin, mersin-vs-antalya-property-investment, can-foreigners-buy-property-in-turkey] excluding current slug
+- excerpt: 2-sentence summary under 220 characters
+
+Return JSON with keys: h1, metaTitle, metaDescription, excerpt, sections, faq, internalLinks, relatedSlugs`;
+
+  const model = getModel();
+  if (!model) {
+    return {
+      success: false,
+      error: "Gemini API key is not configured.",
+    };
+  }
+
+  try {
+    const result = await model.generateContent({
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      generationConfig: {
+        responseMimeType: "application/json",
+        temperature: 0.7,
+      },
+    });
+    const text = result.response.text();
+    const parsed = JSON.parse(text) as GeneratedBlogArticle;
+    return { success: true, data: parsed };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Failed to generate blog article";
+    return { success: false, error: message };
+  }
+}
+
 export function isGeminiConfigured(): boolean {
   return Boolean(getApiKey());
 }

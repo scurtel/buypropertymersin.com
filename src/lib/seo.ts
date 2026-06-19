@@ -62,6 +62,44 @@ export function buildMetadata({
   };
 }
 
+export function buildBlogMetadata(post: {
+  metaTitle: string;
+  metaDescription: string;
+  slug: string;
+  keywords?: string[];
+}): Metadata {
+  const path = `/blog/${post.slug}/`;
+  const url = absoluteUrl(path);
+
+  return {
+    title: post.metaTitle,
+    description: post.metaDescription,
+    keywords: post.keywords,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: post.metaTitle,
+      description: post.metaDescription,
+      url,
+      siteName: site.siteName,
+      locale: "en_US",
+      type: "article",
+      images: [{ url: site.defaultOgImage, alt: post.metaTitle }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.metaTitle,
+      description: post.metaDescription,
+      images: [site.defaultOgImage],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
+
 export function buildPropertyMetadata(property: Property): Metadata {
   const title = `${property.title} | Property for Sale in Mersin`;
   const description = `Explore ${property.title} in ${property.area}, Mersin. View price, size, rooms, features and contact ${site.siteName} for foreign buyer guidance.`;

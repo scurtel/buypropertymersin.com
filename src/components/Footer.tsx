@@ -6,6 +6,7 @@ const footerLinks = [
   { href: "/apartments-for-sale-in-mersin/", label: "Apartments" },
   { href: "/villas-for-sale-in-mersin/", label: "Villas" },
   { href: "/property-in-mezitli/", label: "Area Guides" },
+  { href: "/blog/", label: "Blog" },
   { href: "/buying-property-in-turkey/", label: "Buying Guide" },
   { href: "/about/", label: "About" },
   { href: "/contact/", label: "Contact" },

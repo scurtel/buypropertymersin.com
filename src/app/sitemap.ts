@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/constants";
 import { propertyCategories, areaGuides } from "@/lib/data";
+import { getAllBlogPosts, getBlogHref } from "@/lib/blog";
 import { getAllProperties, getPropertyHref } from "@/lib/properties";
 
 const staticPages = [
@@ -9,6 +10,7 @@ const staticPages = [
   "/buying-property-in-turkey/",
   "/about/",
   "/contact/",
+  "/blog/",
   "/privacy-policy/",
 ];
 
@@ -43,5 +45,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
-  return [...staticEntries, ...categoryEntries, ...areaEntries, ...propertyEntries];
+  const blogEntries = getAllBlogPosts().map((post) => ({
+    url: `${SITE_URL}${getBlogHref(post.slug)}`,
+    lastModified: new Date(post.publishedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [
+    ...staticEntries,
+    ...categoryEntries,
+    ...areaEntries,
+    ...propertyEntries,
+    ...blogEntries,
+  ];
 }
