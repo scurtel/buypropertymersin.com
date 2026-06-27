@@ -1,5 +1,13 @@
 {
   "version": 1,
-  "articles": [],
-  "lastPublished": null
+  "articles": [
+    {
+      "slug": "land-for-sale-in-mersin-risks-and-opportunities-for-buyers",
+      "title": "Land for Sale in Mersin: Risks and Opportunities for Buyers",
+      "targetKeyword": "land for sale Mersin",
+      "category": "Property Types",
+      "publishedAt": "2026-06-27"
+    }
+  ],
+  "lastPublished": "land-for-sale-in-mersin-risks-and-opportunities-for-buyers"
 }
