@@ -1,0 +1,53 @@
+name: Auto Article Generation
+
+on:
+  schedule:
+    # 02:00 UTC ≈ 05:00 Turkey time (TRT, UTC+3)
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-article:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate daily article
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: gemini-2.5-flash
+          NEXT_PUBLIC_SITE_URL: https://buypropertymersin.com
+        run: npm run generate:auto-article
+
+      - name: Commit and push article
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          SLUG=$(node -p "require('./generated-articles/manifest.json').lastPublished")
+          if [ -z "$SLUG" ] || [ "$SLUG" = "null" ]; then
+            echo "No published slug found in manifest."
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add generated-articles/manifest.json "generated-articles/${SLUG}.json" src/lib/blog/auto-posts.ts "src/lib/blog/posts/${SLUG}.ts"
+          git commit -m "add article on ${SLUG}"
+          git push

@@ -40,3 +40,6 @@ next-env.d.ts
 
 # lead storage (development)
 data/leads.json
+
+# auto article pipeline (local run metadata only)
+generated-articles/auto-last-run.json

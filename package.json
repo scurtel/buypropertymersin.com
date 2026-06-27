@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -H 0.0.0.0",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:auto-article": "node scripts/generate-article.mjs",
+    "publish:generated-articles": "node scripts/publish-generated-articles.mjs"
   },
   "engines": {
     "node": ">=20.0.0"

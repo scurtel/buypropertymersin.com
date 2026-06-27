@@ -20,6 +20,9 @@ export interface BlogPost {
   targetKeyword: string;
   secondaryKeywords: string[];
   publishedAt: string;
+  category?: string;
+  tags?: string[];
+  disclaimer?: string;
   sections: BlogSection[];
   faq: FaqItem[];
   internalLinks: BlogInternalLink[];

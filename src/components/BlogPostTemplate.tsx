@@ -28,13 +28,33 @@ export function BlogPostTemplate({ post }: BlogPostTemplateProps) {
       <article className="py-10 sm:py-14">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <header className="border-b border-beige-dark/40 pb-8">
-            <time className="text-sm text-gray-muted" dateTime={post.publishedAt}>
-              {new Date(post.publishedAt).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </time>
+            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-muted">
+              <time dateTime={post.publishedAt}>
+                {new Date(post.publishedAt).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </time>
+              {post.category ? (
+                <>
+                  <span aria-hidden="true">·</span>
+                  <span>{post.category}</span>
+                </>
+              ) : null}
+            </div>
+            {post.tags && post.tags.length > 0 ? (
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <li
+                    key={tag}
+                    className="rounded-full bg-beige px-3 py-1 text-xs font-medium text-navy/80"
+                  >
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             <h1 className="mt-4 text-3xl font-bold text-navy sm:text-4xl">
               {post.h1}
             </h1>
@@ -69,6 +89,12 @@ export function BlogPostTemplate({ post }: BlogPostTemplateProps) {
               );
             })}
           </div>
+
+          {post.disclaimer ? (
+            <p className="mt-10 rounded-lg border border-beige-dark/50 bg-beige/30 p-4 text-sm leading-relaxed text-navy/70">
+              {post.disclaimer}
+            </p>
+          ) : null}
 
           {post.internalLinks.length > 0 && (
             <aside className="mt-12 rounded-xl border border-beige-dark/60 bg-beige/40 p-6">
