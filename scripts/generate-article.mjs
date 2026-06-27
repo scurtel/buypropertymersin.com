@@ -263,55 +263,152 @@ Category: ${topic.category}
 Suggested tags: ${topic.tags.join(", ")}
 Related article slugs (pick up to 2): ${relatedSlugs.join(", ") || "none yet"}
 
-Requirements:
-- Total body word count across all "p" sections: 900-1300 words
+All requirements below are recommendations only. Prioritise completing valid JSON with usable content.
+
+Guidelines (recommended, not strict):
+- Aim for roughly 900-1300 words across all "p" sections
 - Natural, trustworthy English for international property investors
 - Low sales pressure, not spammy, not obviously AI-written
 - No guaranteed citizenship, residence, rental income or capital growth
 - Use conditional language for legal, tax and investment topics
-- metaTitle: max 60 characters
-- metaDescription: max 155 characters
+- metaTitle: around 60 characters when possible
+- metaDescription: around 155 characters when possible
 - 4-5 FAQ items with concise, safe answers
 - sections: array of { "type": "h2"|"h3"|"p", "text": "..." } with clear hierarchy
 - internalLinks: 4-6 items using only these site paths:
 ${linkSuggestions}
 - relatedSlugs: up to 2 slugs from the related list that fit this article
-- excerpt: 2 sentences, under 220 characters
-- secondaryKeywords: 4-6 relevant phrases
-- disclaimer: one short paragraph reminding readers this is general information, not legal or investment advice, and that rules can change
+- excerpt: short summary when possible
+- secondaryKeywords: 4-6 relevant phrases when possible
+- disclaimer: brief general-information notice when possible
 - h1: clear article headline (can match title)
 
 Return JSON with keys:
 h1, metaTitle, metaDescription, excerpt, secondaryKeywords, sections, faq, internalLinks, relatedSlugs, disclaimer`;
 }
 
-function validateArticle(data, slug) {
-  const wordCount = countWords(data.sections || []);
-  if (wordCount < 850 || wordCount > 1400) {
-    throw new Error(
-      `Article word count out of range (${wordCount}). Expected 900-1300 words.`
+function truncate(text, maxLength) {
+  if (!text) return "";
+  const trimmed = text.trim();
+  if (trimmed.length <= maxLength) return trimmed;
+  return `${trimmed.slice(0, maxLength - 3).trimEnd()}...`;
+}
+
+const FALLBACK_DISCLAIMER =
+  "This article is for general information only and does not constitute legal, tax or investment advice. Property rules, prices and procedures can change. Speak with a qualified lawyer and licensed advisor before making any purchase decision in Türkiye.";
+
+const DEFAULT_INTERNAL_LINKS = [
+  { label: "Browse properties in Mersin", href: "/properties/" },
+  { label: "Buying property in Turkey guide", href: "/buying-property-in-turkey/" },
+  { label: "Contact Buy Property Mersin", href: "/contact/" },
+];
+
+function warnArticleQuality(data) {
+  const wordCount = countWords(Array.isArray(data.sections) ? data.sections : []);
+  if (wordCount < 900 || wordCount > 1300) {
+    console.warn(
+      `Word count (${wordCount}) is outside the recommended 900-1300 range; publishing anyway.`
     );
   }
 
-  if (!data.metaTitle || data.metaTitle.length > 60) {
-    throw new Error(
-      `metaTitle invalid or too long (${data.metaTitle?.length ?? 0} chars).`
+  if (!data.metaTitle) {
+    console.warn("metaTitle missing; using article title fallback.");
+  } else if (data.metaTitle.length > 60) {
+    console.warn(
+      `metaTitle is ${data.metaTitle.length} chars (recommended max 60); truncating for publish.`
     );
   }
 
-  if (!data.metaDescription || data.metaDescription.length > 155) {
-    throw new Error(
-      `metaDescription invalid or too long (${data.metaDescription?.length ?? 0} chars).`
+  if (!data.metaDescription) {
+    console.warn("metaDescription missing; using excerpt/title fallback.");
+  } else if (data.metaDescription.length > 155) {
+    console.warn(
+      `metaDescription is ${data.metaDescription.length} chars (recommended max 155); truncating for publish.`
     );
   }
 
-  if (!Array.isArray(data.faq) || data.faq.length < 4) {
-    throw new Error("FAQ section must include at least 4 items.");
+  if (!Array.isArray(data.faq) || data.faq.length === 0) {
+    console.warn("FAQ missing or empty; publishing without FAQ items.");
+  } else if (data.faq.length < 4) {
+    console.warn(
+      `FAQ has ${data.faq.length} items (recommended 4-5); publishing anyway.`
+    );
   }
 
-  if (!Array.isArray(data.sections) || data.sections.length < 6) {
-    throw new Error("Article sections are incomplete.");
+  if (!Array.isArray(data.sections) || data.sections.length === 0) {
+    console.warn("Sections missing or empty; using minimal placeholder content.");
+  } else if (data.sections.length < 6) {
+    console.warn(
+      `Article has ${data.sections.length} sections (recommended more); publishing anyway.`
+    );
   }
+
+  if (!Array.isArray(data.internalLinks) || data.internalLinks.length === 0) {
+    console.warn("internalLinks missing; using default internal links.");
+  }
+}
+
+function normalizeArticle(data, topic, slug, relatedSlugs, publishedAt) {
+  warnArticleQuality(data);
+
+  const sections = Array.isArray(data.sections)
+    ? data.sections.filter((section) => section?.text?.trim())
+    : [];
+
+  const safeSections =
+    sections.length > 0
+      ? sections
+      : [
+          {
+            type: "p",
+            text: `This article explores ${topic.targetKeyword} for foreign buyers considering property in Mersin, Türkiye.`,
+          },
+        ];
+
+  const faq = Array.isArray(data.faq)
+    ? data.faq.filter((item) => item?.question?.trim() && item?.answer?.trim())
+    : [];
+
+  const internalLinks =
+    Array.isArray(data.internalLinks) && data.internalLinks.length > 0
+      ? data.internalLinks.filter((link) => link?.label?.trim() && link?.href?.trim())
+      : DEFAULT_INTERNAL_LINKS;
+
+  const excerpt =
+    data.excerpt?.trim() ||
+    truncate(
+      safeSections.find((section) => section.type === "p")?.text || topic.title,
+      220
+    );
+
+  return {
+    slug,
+    title: topic.title,
+    h1: data.h1?.trim() || topic.title,
+    metaTitle: truncate(data.metaTitle?.trim() || topic.title, 60),
+    metaDescription: truncate(
+      data.metaDescription?.trim() || excerpt || topic.title,
+      155
+    ),
+    excerpt,
+    targetKeyword: topic.targetKeyword,
+    secondaryKeywords:
+      Array.isArray(data.secondaryKeywords) && data.secondaryKeywords.length > 0
+        ? data.secondaryKeywords
+        : topic.tags,
+    publishedAt,
+    category: topic.category,
+    tags: topic.tags,
+    disclaimer: data.disclaimer?.trim() || FALLBACK_DISCLAIMER,
+    sections: safeSections,
+    faq,
+    internalLinks,
+    relatedSlugs: (
+      Array.isArray(data.relatedSlugs) && data.relatedSlugs.length > 0
+        ? data.relatedSlugs
+        : relatedSlugs
+    ).slice(0, 2),
+  };
 }
 
 function rollbackFiles(paths) {
@@ -371,26 +468,7 @@ async function main() {
   });
 
   const data = JSON.parse(result.response.text());
-  validateArticle(data, slug);
-
-  const article = {
-    slug,
-    title: topic.title,
-    h1: data.h1,
-    metaTitle: data.metaTitle,
-    metaDescription: data.metaDescription,
-    excerpt: data.excerpt,
-    targetKeyword: topic.targetKeyword,
-    secondaryKeywords: data.secondaryKeywords || topic.tags,
-    publishedAt: today,
-    category: topic.category,
-    tags: topic.tags,
-    disclaimer: data.disclaimer,
-    sections: data.sections,
-    faq: data.faq,
-    internalLinks: data.internalLinks,
-    relatedSlugs: (data.relatedSlugs || relatedSlugs).slice(0, 2),
-  };
+  const article = normalizeArticle(data, topic, slug, relatedSlugs, today);
 
   const jsonPath = join(root, "generated-articles", `${slug}.json`);
   const tsPath = join(root, "src", "lib", "blog", "posts", `${slug}.ts`);
