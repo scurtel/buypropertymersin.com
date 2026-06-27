@@ -9,6 +9,8 @@ import {
   getGeminiApiKey,
   loadEnv,
   loadManifest,
+  normalizeGeneratedArticle,
+  normalizeSections,
   publishArticle,
   slugify,
 } from "./lib/article-utils.mjs";
@@ -275,7 +277,7 @@ Guidelines (recommended, not strict):
 - metaDescription: around 155 characters when possible
 - 4-5 FAQ items with concise, safe answers
 - sections: array of { "type": "h2"|"h3"|"p", "text": "..." } with clear hierarchy
-- internalLinks: 4-6 items using only these site paths:
+- internalLinks: 4-6 items as { "label": "...", "href": "/path/" } using only these site paths:
 ${linkSuggestions}
 - relatedSlugs: up to 2 slugs from the related list that fit this article
 - excerpt: short summary when possible
@@ -296,12 +298,6 @@ function truncate(text, maxLength) {
 
 const FALLBACK_DISCLAIMER =
   "This article is for general information only and does not constitute legal, tax or investment advice. Property rules, prices and procedures can change. Speak with a qualified lawyer and licensed advisor before making any purchase decision in Türkiye.";
-
-const DEFAULT_INTERNAL_LINKS = [
-  { label: "Browse properties in Mersin", href: "/properties/" },
-  { label: "Buying property in Turkey guide", href: "/buying-property-in-turkey/" },
-  { label: "Contact Buy Property Mersin", href: "/contact/" },
-];
 
 function warnArticleQuality(data) {
   const wordCount = countWords(Array.isArray(data.sections) ? data.sections : []);
@@ -351,37 +347,16 @@ function warnArticleQuality(data) {
 function normalizeArticle(data, topic, slug, relatedSlugs, publishedAt) {
   warnArticleQuality(data);
 
-  const sections = Array.isArray(data.sections)
-    ? data.sections.filter((section) => section?.text?.trim())
-    : [];
-
-  const safeSections =
-    sections.length > 0
-      ? sections
-      : [
-          {
-            type: "p",
-            text: `This article explores ${topic.targetKeyword} for foreign buyers considering property in Mersin, Türkiye.`,
-          },
-        ];
-
-  const faq = Array.isArray(data.faq)
-    ? data.faq.filter((item) => item?.question?.trim() && item?.answer?.trim())
-    : [];
-
-  const internalLinks =
-    Array.isArray(data.internalLinks) && data.internalLinks.length > 0
-      ? data.internalLinks.filter((link) => link?.label?.trim() && link?.href?.trim())
-      : DEFAULT_INTERNAL_LINKS;
-
   const excerpt =
     data.excerpt?.trim() ||
     truncate(
-      safeSections.find((section) => section.type === "p")?.text || topic.title,
+      normalizeSections(data.sections, topic.targetKeyword).find(
+        (section) => section.type === "p"
+      )?.text || topic.title,
       220
     );
 
-  return {
+  const draft = {
     slug,
     title: topic.title,
     h1: data.h1?.trim() || topic.title,
@@ -400,15 +375,17 @@ function normalizeArticle(data, topic, slug, relatedSlugs, publishedAt) {
     category: topic.category,
     tags: topic.tags,
     disclaimer: data.disclaimer?.trim() || FALLBACK_DISCLAIMER,
-    sections: safeSections,
-    faq,
-    internalLinks,
+    sections: data.sections,
+    faq: data.faq,
+    internalLinks: data.internalLinks,
     relatedSlugs: (
       Array.isArray(data.relatedSlugs) && data.relatedSlugs.length > 0
         ? data.relatedSlugs
         : relatedSlugs
     ).slice(0, 2),
   };
+
+  return normalizeGeneratedArticle(draft);
 }
 
 function rollbackFiles(paths) {

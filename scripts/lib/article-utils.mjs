@@ -10,6 +10,131 @@ import { basename, join } from "path";
 const DEFAULT_DISCLAIMER =
   "This article is for general information only and does not constitute legal, tax or investment advice. Property rules, prices and procedures can change. Speak with a qualified lawyer and licensed advisor before making any purchase decision in Türkiye.";
 
+export const DEFAULT_INTERNAL_LINKS = [
+  { label: "Browse properties in Mersin", href: "/properties/" },
+  { label: "Buying property in Turkey guide", href: "/buying-property-in-turkey/" },
+  { label: "Contact Buy Property Mersin", href: "/contact/" },
+];
+
+function normalizeHref(href) {
+  if (!href) return "";
+  let path = String(href).trim();
+  if (/^https?:\/\//i.test(path)) {
+    try {
+      const url = new URL(path);
+      path = url.pathname || "/";
+    } catch {
+      return "";
+    }
+  }
+  if (!path.startsWith("/")) path = `/${path}`;
+  if (!path.endsWith("/")) path = `${path}/`;
+  return path;
+}
+
+export function normalizeInternalLinks(links, fallback = DEFAULT_INTERNAL_LINKS) {
+  if (!Array.isArray(links) || links.length === 0) return [...fallback];
+
+  const normalized = links
+    .map((link) => {
+      const label =
+        link?.label?.trim() ||
+        link?.text?.trim() ||
+        link?.title?.trim() ||
+        link?.name?.trim() ||
+        "";
+      const href = normalizeHref(
+        link?.href?.trim() ||
+          link?.path?.trim() ||
+          link?.url?.trim() ||
+          link?.link?.trim() ||
+          ""
+      );
+      return label && href ? { label, href } : null;
+    })
+    .filter(Boolean);
+
+  return normalized.length > 0 ? normalized : [...fallback];
+}
+
+export function normalizeFaqItems(faq) {
+  if (!Array.isArray(faq)) return [];
+
+  return faq
+    .map((item) => {
+      const question =
+        item?.question?.trim() ||
+        item?.q?.trim() ||
+        item?.title?.trim() ||
+        "";
+      const answer =
+        item?.answer?.trim() ||
+        item?.a?.trim() ||
+        item?.text?.trim() ||
+        item?.content?.trim() ||
+        "";
+      return question && answer ? { question, answer } : null;
+    })
+    .filter(Boolean);
+}
+
+export function normalizeSections(sections, targetKeyword = "property in Mersin") {
+  const allowedTypes = new Set(["h2", "h3", "p"]);
+
+  if (!Array.isArray(sections) || sections.length === 0) {
+    return [
+      {
+        type: "p",
+        text: `This article explores ${targetKeyword} for foreign buyers considering property in Mersin, Türkiye.`,
+      },
+    ];
+  }
+
+  const normalized = sections
+    .map((section) => {
+      let type = String(section?.type || section?.heading || "p")
+        .toLowerCase()
+        .trim();
+      if (type === "paragraph") type = "p";
+      if (type === "heading" || type === "subtitle") type = "h2";
+      if (!allowedTypes.has(type)) type = "p";
+
+      const text =
+        section?.text?.trim() ||
+        section?.content?.trim() ||
+        section?.body?.trim() ||
+        section?.value?.trim() ||
+        "";
+
+      return text ? { type, text } : null;
+    })
+    .filter(Boolean);
+
+  if (normalized.length === 0) {
+    return [
+      {
+        type: "p",
+        text: `This article explores ${targetKeyword} for foreign buyers considering property in Mersin, Türkiye.`,
+      },
+    ];
+  }
+
+  return normalized;
+}
+
+export function normalizeGeneratedArticle(article) {
+  return {
+    ...article,
+    sections: normalizeSections(article.sections, article.targetKeyword),
+    faq: normalizeFaqItems(article.faq),
+    internalLinks: normalizeInternalLinks(article.internalLinks),
+    relatedSlugs: Array.isArray(article.relatedSlugs)
+      ? article.relatedSlugs.map(String).filter(Boolean).slice(0, 2)
+      : [],
+    disclaimer: article.disclaimer?.trim() || DEFAULT_DISCLAIMER,
+  };
+}
+
 export function loadEnv(root) {
   try {
     const envPath = join(root, ".env");
@@ -62,23 +187,24 @@ function toImportName(slug) {
 }
 
 function toTsFile(article) {
+  const normalized = normalizeGeneratedArticle(article);
   const post = {
-    slug: article.slug,
-    title: article.title,
-    h1: article.h1,
-    metaTitle: article.metaTitle,
-    metaDescription: article.metaDescription,
-    excerpt: article.excerpt,
-    targetKeyword: article.targetKeyword,
-    secondaryKeywords: article.secondaryKeywords,
-    publishedAt: article.publishedAt,
-    category: article.category,
-    tags: article.tags,
-    disclaimer: article.disclaimer || DEFAULT_DISCLAIMER,
-    sections: article.sections,
-    faq: article.faq,
-    internalLinks: article.internalLinks,
-    relatedSlugs: article.relatedSlugs,
+    slug: normalized.slug,
+    title: normalized.title,
+    h1: normalized.h1,
+    metaTitle: normalized.metaTitle,
+    metaDescription: normalized.metaDescription,
+    excerpt: normalized.excerpt,
+    targetKeyword: normalized.targetKeyword,
+    secondaryKeywords: normalized.secondaryKeywords,
+    publishedAt: normalized.publishedAt,
+    category: normalized.category,
+    tags: normalized.tags,
+    disclaimer: normalized.disclaimer,
+    sections: normalized.sections,
+    faq: normalized.faq,
+    internalLinks: normalized.internalLinks,
+    relatedSlugs: normalized.relatedSlugs,
   };
 
   return `import type { BlogPost } from "@/lib/blog/types";
@@ -183,7 +309,10 @@ export function publishArticle(root, slug) {
     throw new Error(`Generated article JSON not found: ${basename(jsonPath)}`);
   }
 
-  const article = readJson(jsonPath);
+  const rawArticle = readJson(jsonPath);
+  const article = normalizeGeneratedArticle(rawArticle);
+  writeJson(jsonPath, article);
+
   const postsDir = join(root, "src", "lib", "blog", "posts");
   mkdirSync(postsDir, { recursive: true });
   writeFileSync(join(postsDir, `${slug}.ts`), toTsFile(article), "utf-8");
