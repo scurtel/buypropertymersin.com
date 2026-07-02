@@ -4,6 +4,7 @@ import { post as post_apartments_for_sale_in_mersin_what_foreign_buyers_should_c
 import { post as post_currency_considerations_when_buying_property_in_mersin } from "./posts/currency-considerations-when-buying-property-in-mersin";
 import { post as post_due_diligence_checklist_before_buying_property_in_mersin } from "./posts/due-diligence-checklist-before-buying-property-in-mersin";
 import { post as post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers } from "./posts/land-for-sale-in-mersin-risks-and-opportunities-for-buyers";
+import { post as post_rental_yield_potential_for_mersin_investment_properties } from "./posts/rental-yield-potential-for-mersin-investment-properties";
 import { post as post_retiring_in_mersin_property_options_for_overseas_buyers } from "./posts/retiring-in-mersin-property-options-for-overseas-buyers";
 
 export const autoPosts: BlogPost[] = [
@@ -11,5 +12,6 @@ export const autoPosts: BlogPost[] = [
   post_currency_considerations_when_buying_property_in_mersin,
   post_due_diligence_checklist_before_buying_property_in_mersin,
   post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers,
+  post_rental_yield_potential_for_mersin_investment_properties,
   post_retiring_in_mersin_property_options_for_overseas_buyers,
 ];
