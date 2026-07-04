@@ -2,6 +2,7 @@
 import type { BlogPost } from "./types";
 import { post as post_apartments_for_sale_in_mersin_what_foreign_buyers_should_compare } from "./posts/apartments-for-sale-in-mersin-what-foreign-buyers-should-compare";
 import { post as post_ayas_beach_area_property_what_buyers_should_know } from "./posts/ayas-beach-area-property-what-buyers-should-know";
+import { post as post_cesmeli_and_davultepe_emerging_areas_for_mersin_property_buyers } from "./posts/cesmeli-and-davultepe-emerging-areas-for-mersin-property-buyers";
 import { post as post_currency_considerations_when_buying_property_in_mersin } from "./posts/currency-considerations-when-buying-property-in-mersin";
 import { post as post_due_diligence_checklist_before_buying_property_in_mersin } from "./posts/due-diligence-checklist-before-buying-property-in-mersin";
 import { post as post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers } from "./posts/land-for-sale-in-mersin-risks-and-opportunities-for-buyers";
@@ -11,6 +12,7 @@ import { post as post_retiring_in_mersin_property_options_for_overseas_buyers } 
 export const autoPosts: BlogPost[] = [
   post_apartments_for_sale_in_mersin_what_foreign_buyers_should_compare,
   post_ayas_beach_area_property_what_buyers_should_know,
+  post_cesmeli_and_davultepe_emerging_areas_for_mersin_property_buyers,
   post_currency_considerations_when_buying_property_in_mersin,
   post_due_diligence_checklist_before_buying_property_in_mersin,
   post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers,
