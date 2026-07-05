@@ -8,6 +8,7 @@ import { post as post_due_diligence_checklist_before_buying_property_in_mersin }
 import { post as post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers } from "./posts/land-for-sale-in-mersin-risks-and-opportunities-for-buyers";
 import { post as post_rental_yield_potential_for_mersin_investment_properties } from "./posts/rental-yield-potential-for-mersin-investment-properties";
 import { post as post_retiring_in_mersin_property_options_for_overseas_buyers } from "./posts/retiring-in-mersin-property-options-for-overseas-buyers";
+import { post as post_winter_vs_summer_living_in_mersin_for_property_owners } from "./posts/winter-vs-summer-living-in-mersin-for-property-owners";
 
 export const autoPosts: BlogPost[] = [
   post_apartments_for_sale_in_mersin_what_foreign_buyers_should_compare,
@@ -18,4 +19,5 @@ export const autoPosts: BlogPost[] = [
   post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers,
   post_rental_yield_potential_for_mersin_investment_properties,
   post_retiring_in_mersin_property_options_for_overseas_buyers,
+  post_winter_vs_summer_living_in_mersin_for_property_owners,
 ];
