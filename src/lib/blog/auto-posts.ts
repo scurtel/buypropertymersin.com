@@ -7,6 +7,7 @@ import { post as post_currency_considerations_when_buying_property_in_mersin } f
 import { post as post_due_diligence_checklist_before_buying_property_in_mersin } from "./posts/due-diligence-checklist-before-buying-property-in-mersin";
 import { post as post_family_friendly_neighborhoods_in_mersin_for_property_buyers } from "./posts/family-friendly-neighborhoods-in-mersin-for-property-buyers";
 import { post as post_financing_options_for_foreigners_buying_property_in_mersin } from "./posts/financing-options-for-foreigners-buying-property-in-mersin";
+import { post as post_how_mersin_compares_to_alanya_for_coastal_property_investment } from "./posts/how-mersin-compares-to-alanya-for-coastal-property-investment";
 import { post as post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers } from "./posts/land-for-sale-in-mersin-risks-and-opportunities-for-buyers";
 import { post as post_managing_a_rental_property_in_mersin_from_abroad } from "./posts/managing-a-rental-property-in-mersin-from-abroad";
 import { post as post_rental_yield_potential_for_mersin_investment_properties } from "./posts/rental-yield-potential-for-mersin-investment-properties";
@@ -23,6 +24,7 @@ export const autoPosts: BlogPost[] = [
   post_due_diligence_checklist_before_buying_property_in_mersin,
   post_family_friendly_neighborhoods_in_mersin_for_property_buyers,
   post_financing_options_for_foreigners_buying_property_in_mersin,
+  post_how_mersin_compares_to_alanya_for_coastal_property_investment,
   post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers,
   post_managing_a_rental_property_in_mersin_from_abroad,
   post_rental_yield_potential_for_mersin_investment_properties,
