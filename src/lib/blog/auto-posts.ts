@@ -15,6 +15,7 @@ import { post as post_retiring_in_mersin_property_options_for_overseas_buyers } 
 import { post as post_turkish_citizenship_by_property_investment_what_buyers_should_verify } from "./posts/turkish-citizenship-by-property-investment-what-buyers-should-verify";
 import { post as post_why_mezitli_is_popular_with_foreign_property_buyers_in_mersin } from "./posts/why-mezitli-is-popular-with-foreign-property-buyers-in-mersin";
 import { post as post_winter_vs_summer_living_in_mersin_for_property_owners } from "./posts/winter-vs-summer-living-in-mersin-for-property-owners";
+import { post as post_yenisehir_mersin_property_guide_for_international_investors } from "./posts/yenisehir-mersin-property-guide-for-international-investors";
 
 export const autoPosts: BlogPost[] = [
   post_apartments_for_sale_in_mersin_what_foreign_buyers_should_compare,
@@ -32,4 +33,5 @@ export const autoPosts: BlogPost[] = [
   post_turkish_citizenship_by_property_investment_what_buyers_should_verify,
   post_why_mezitli_is_popular_with_foreign_property_buyers_in_mersin,
   post_winter_vs_summer_living_in_mersin_for_property_owners,
+  post_yenisehir_mersin_property_guide_for_international_investors,
 ];
