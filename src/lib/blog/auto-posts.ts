@@ -10,6 +10,7 @@ import { post as post_financing_options_for_foreigners_buying_property_in_mersin
 import { post as post_how_mersin_compares_to_alanya_for_coastal_property_investment } from "./posts/how-mersin-compares-to-alanya-for-coastal-property-investment";
 import { post as post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers } from "./posts/land-for-sale-in-mersin-risks-and-opportunities-for-buyers";
 import { post as post_managing_a_rental_property_in_mersin_from_abroad } from "./posts/managing-a-rental-property-in-mersin-from-abroad";
+import { post as post_property_taxes_and_running_costs_when_buying_in_mersin } from "./posts/property-taxes-and-running-costs-when-buying-in-mersin";
 import { post as post_rental_yield_potential_for_mersin_investment_properties } from "./posts/rental-yield-potential-for-mersin-investment-properties";
 import { post as post_retiring_in_mersin_property_options_for_overseas_buyers } from "./posts/retiring-in-mersin-property-options-for-overseas-buyers";
 import { post as post_turkish_citizenship_by_property_investment_what_buyers_should_verify } from "./posts/turkish-citizenship-by-property-investment-what-buyers-should-verify";
@@ -28,6 +29,7 @@ export const autoPosts: BlogPost[] = [
   post_how_mersin_compares_to_alanya_for_coastal_property_investment,
   post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers,
   post_managing_a_rental_property_in_mersin_from_abroad,
+  post_property_taxes_and_running_costs_when_buying_in_mersin,
   post_rental_yield_potential_for_mersin_investment_properties,
   post_retiring_in_mersin_property_options_for_overseas_buyers,
   post_turkish_citizenship_by_property_investment_what_buyers_should_verify,
