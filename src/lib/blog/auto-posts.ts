@@ -6,6 +6,7 @@ import { post as post_ayas_beach_area_property_what_buyers_should_know } from ".
 import { post as post_cesmeli_and_davultepe_emerging_areas_for_mersin_property_buyers } from "./posts/cesmeli-and-davultepe-emerging-areas-for-mersin-property-buyers";
 import { post as post_currency_considerations_when_buying_property_in_mersin } from "./posts/currency-considerations-when-buying-property-in-mersin";
 import { post as post_due_diligence_checklist_before_buying_property_in_mersin } from "./posts/due-diligence-checklist-before-buying-property-in-mersin";
+import { post as post_erdemli_real_estate_coastal_living_and_investment_potential } from "./posts/erdemli-real-estate-coastal-living-and-investment-potential";
 import { post as post_family_friendly_neighborhoods_in_mersin_for_property_buyers } from "./posts/family-friendly-neighborhoods-in-mersin-for-property-buyers";
 import { post as post_financing_options_for_foreigners_buying_property_in_mersin } from "./posts/financing-options-for-foreigners-buying-property-in-mersin";
 import { post as post_how_mersin_compares_to_alanya_for_coastal_property_investment } from "./posts/how-mersin-compares-to-alanya-for-coastal-property-investment";
@@ -31,6 +32,7 @@ export const autoPosts: BlogPost[] = [
   post_cesmeli_and_davultepe_emerging_areas_for_mersin_property_buyers,
   post_currency_considerations_when_buying_property_in_mersin,
   post_due_diligence_checklist_before_buying_property_in_mersin,
+  post_erdemli_real_estate_coastal_living_and_investment_potential,
   post_family_friendly_neighborhoods_in_mersin_for_property_buyers,
   post_financing_options_for_foreigners_buying_property_in_mersin,
   post_how_mersin_compares_to_alanya_for_coastal_property_investment,
