@@ -10,6 +10,7 @@ import { post as post_erdemli_real_estate_coastal_living_and_investment_potentia
 import { post as post_family_friendly_neighborhoods_in_mersin_for_property_buyers } from "./posts/family-friendly-neighborhoods-in-mersin-for-property-buyers";
 import { post as post_financing_options_for_foreigners_buying_property_in_mersin } from "./posts/financing-options-for-foreigners-buying-property-in-mersin";
 import { post as post_how_mersin_compares_to_alanya_for_coastal_property_investment } from "./posts/how-mersin-compares-to-alanya-for-coastal-property-investment";
+import { post as post_how_to_choose_a_real_estate_lawyer_in_turkey_as_a_foreign_buyer } from "./posts/how-to-choose-a-real-estate-lawyer-in-turkey-as-a-foreign-buyer";
 import { post as post_k_zkalesi_area_property_history_tourism_and_real_estate } from "./posts/k-zkalesi-area-property-history-tourism-and-real-estate";
 import { post as post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers } from "./posts/land-for-sale-in-mersin-risks-and-opportunities-for-buyers";
 import { post as post_managing_a_rental_property_in_mersin_from_abroad } from "./posts/managing-a-rental-property-in-mersin-from-abroad";
@@ -36,6 +37,7 @@ export const autoPosts: BlogPost[] = [
   post_family_friendly_neighborhoods_in_mersin_for_property_buyers,
   post_financing_options_for_foreigners_buying_property_in_mersin,
   post_how_mersin_compares_to_alanya_for_coastal_property_investment,
+  post_how_to_choose_a_real_estate_lawyer_in_turkey_as_a_foreign_buyer,
   post_k_zkalesi_area_property_history_tourism_and_real_estate,
   post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers,
   post_managing_a_rental_property_in_mersin_from_abroad,
