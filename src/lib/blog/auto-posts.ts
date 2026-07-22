@@ -14,6 +14,7 @@ import { post as post_how_to_choose_a_real_estate_lawyer_in_turkey_as_a_foreign_
 import { post as post_k_zkalesi_area_property_history_tourism_and_real_estate } from "./posts/k-zkalesi-area-property-history-tourism-and-real-estate";
 import { post as post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers } from "./posts/land-for-sale-in-mersin-risks-and-opportunities-for-buyers";
 import { post as post_managing_a_rental_property_in_mersin_from_abroad } from "./posts/managing-a-rental-property-in-mersin-from-abroad";
+import { post as post_mersin_property_market_trends_foreign_buyers_should_watch } from "./posts/mersin-property-market-trends-foreign-buyers-should-watch";
 import { post as post_new_mersin_airport_and_infrastructure_impact_on_real_estate } from "./posts/new-mersin-airport-and-infrastructure-impact-on-real-estate";
 import { post as post_off_plan_vs_resale_property_in_mersin_pros_and_cons } from "./posts/off-plan-vs-resale-property-in-mersin-pros-and-cons";
 import { post as post_property_taxes_and_running_costs_when_buying_in_mersin } from "./posts/property-taxes-and-running-costs-when-buying-in-mersin";
@@ -41,6 +42,7 @@ export const autoPosts: BlogPost[] = [
   post_k_zkalesi_area_property_history_tourism_and_real_estate,
   post_land_for_sale_in_mersin_risks_and_opportunities_for_buyers,
   post_managing_a_rental_property_in_mersin_from_abroad,
+  post_mersin_property_market_trends_foreign_buyers_should_watch,
   post_new_mersin_airport_and_infrastructure_impact_on_real_estate,
   post_off_plan_vs_resale_property_in_mersin_pros_and_cons,
   post_property_taxes_and_running_costs_when_buying_in_mersin,
