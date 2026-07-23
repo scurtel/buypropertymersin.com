@@ -23,6 +23,7 @@ import { post as post_retiring_in_mersin_property_options_for_overseas_buyers } 
 import { post as post_susanoglu_property_guide_for_holiday_and_second_home_buyers } from "./posts/susanoglu-property-guide-for-holiday-and-second-home-buyers";
 import { post as post_tece_and_tomuk_quiet_coastal_districts_near_mersin } from "./posts/tece-and-tomuk-quiet-coastal-districts-near-mersin";
 import { post as post_turkish_citizenship_by_property_investment_what_buyers_should_verify } from "./posts/turkish-citizenship-by-property-investment-what-buyers-should-verify";
+import { post as post_turkish_title_deed_tapu_explained_for_foreign_property_buyers } from "./posts/turkish-title-deed-tapu-explained-for-foreign-property-buyers";
 import { post as post_why_mezitli_is_popular_with_foreign_property_buyers_in_mersin } from "./posts/why-mezitli-is-popular-with-foreign-property-buyers-in-mersin";
 import { post as post_winter_vs_summer_living_in_mersin_for_property_owners } from "./posts/winter-vs-summer-living-in-mersin-for-property-owners";
 import { post as post_yenisehir_mersin_property_guide_for_international_investors } from "./posts/yenisehir-mersin-property-guide-for-international-investors";
@@ -51,6 +52,7 @@ export const autoPosts: BlogPost[] = [
   post_susanoglu_property_guide_for_holiday_and_second_home_buyers,
   post_tece_and_tomuk_quiet_coastal_districts_near_mersin,
   post_turkish_citizenship_by_property_investment_what_buyers_should_verify,
+  post_turkish_title_deed_tapu_explained_for_foreign_property_buyers,
   post_why_mezitli_is_popular_with_foreign_property_buyers_in_mersin,
   post_winter_vs_summer_living_in_mersin_for_property_owners,
   post_yenisehir_mersin_property_guide_for_international_investors,
